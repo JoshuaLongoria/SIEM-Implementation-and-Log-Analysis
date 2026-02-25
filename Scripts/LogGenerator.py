@@ -1,5 +1,6 @@
-#Any scripts used to generate failed login attempts or simulate traffic.
-#like wirting a custom parser to translate raw logs into readable fields.
+#This is a script used to generate failed login attempts or simulate traffic.
+# It creates log entries with timestamps, random IP addresses, and usernames, and appends them to a log file. 
+# This can be useful for testing SIEM systems or practicing log analysis.
 
 import datetime
 import random
