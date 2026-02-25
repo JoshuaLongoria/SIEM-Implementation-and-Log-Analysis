@@ -1,0 +1,3 @@
+used Sysmon (highly recommended for SIEM projects), include your configuration file.
+
+: Any custom alert rules you created (e.g., "Alert if 5 failed logins happen in 60 seconds").
