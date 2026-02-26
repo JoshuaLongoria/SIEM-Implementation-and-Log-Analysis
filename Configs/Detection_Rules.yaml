@@ -1,3 +1,23 @@
 used Sysmon (highly recommended for SIEM projects), include your configuration file.
 
 : Any custom alert rules you created (e.g., "Alert if 5 failed logins happen in 60 seconds").
+
+id: rdp-brute-force-detection
+name: High Volume of RDP Login Failures
+description: Detects when a single source IP has more than 5 failed login attempts within 1 minute.
+severity: Medium
+status: Available
+author: Joshua Longoria
+
+# Logic for the SIEM to follow:
+detection:
+  selection:
+    status: "FAILURE"
+  condition: selection | count() > 5 
+  timeframe: 1m
+  group-by: Source_IP
+
+# Mapping to industry standards:
+threat_mapping:
+  tactic: Credential Access
+  technique: T1110 (Brute Force)
