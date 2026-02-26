@@ -1,23 +1,21 @@
-// This is a custom parser to traslate raw logs into readable fields
-
 {
   "parser_name": "RDP_BruteForce_Parser",
   "description": "Extracts IP and Username from custom LogGenerator.py output",
-    // Description of the parser's purpose from LogGenerator.py output^^//
+
   "parsing_rules": {
     "extraction_regex": "^(?P<Timestamp>\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}) - STATUS: (?P<Status>\\w+) - SRC_IP: (?P<Source_IP>[\\d.]+) - USER: (?P<Target_User>\\w+)", 
-    // Regular expression to extract fields from the raw log ^^
+ 
     "field_mappings": [                                     
       { "raw_field": "Timestamp", "type": "DateTime" },
       { "raw_field": "Source_IP", "type": "IPAddress" },
       { "raw_field": "Target_User", "type": "String" },
       { "raw_field": "Status", "type": "String" }
     ]
-    // Mapping of raw fields to their types ^^
+
   },
   "enrichment": {                                          
     "geo_lookup": "Source_IP",
     "threat_intel_check": "Source_IP"
-    // Enrichment rules to enhance the extracted data 
+   
   }
 }
