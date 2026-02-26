@@ -6,10 +6,10 @@
 This project involved setting up a live **SIEM (Security Information and Event Management)** instance to monitor, analyze, and respond to real-time security events. The goal was to observe global "brute force" attacks via RDP and visualize the data to understand threat actor behaviors.
 
 ##  Technologies & Tools Used
-* **SIEM:** [e.g., Microsoft Sentinel / ELK Stack / Splunk]
-* **Cloud Provider:** [e.g., Azure / AWS]
-* **Logging:** Windows Event Logs, Sysmon
-* **Scripting:** PowerShell / Python (for log transformation)
+* **SIEM:** [e.g., **Microsoft Sentinel** / ELK Stack / Splunk]
+* **Cloud Provider:** [e.g., **Azure** / AWS]
+* **Logging:** **Windows Event Logs**, Sysmon
+* **Scripting:** **PowerShell / Python (for log transformation)**
 * **Mapping:** [e.g., IPStack API for Geolocation data]
 
 ##  Architecture
