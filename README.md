@@ -71,6 +71,9 @@ through a live world map dashboard.
 visualized in Microsoft Sentinel. Bubble size represents attack volume 
 per IP address.*
 
+## Architecture Diagram
+![SIEM Architecture](docs/Azure_SIEM_workflow.png)
+
 ## KQL Queries Used
 ```kql
 // View parsed failed login data
