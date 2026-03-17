@@ -66,6 +66,7 @@ through a live world map dashboard.
 
 ## Dashboard
 ![SIEM Attack Map - HoneyPot Dashboard](Documents/SIEM_Attack_Map_-_HoneyPot_Dashboard.png)
+
 *Figure 1: Real-time world map of simulated brute-force attacks 
 visualized in Microsoft Sentinel. Bubble size represents attack volume 
 per IP address.*
