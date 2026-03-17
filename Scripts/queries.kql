@@ -1,0 +1,112 @@
+// ============================================
+// SIEM Implementation & Log Analysis
+// KQL Queries - Microsoft Sentinel
+// Author: Joshua Longoria
+// ============================================
+
+
+// --------------------------------------------
+// BASIC DATA VERIFICATION
+// --------------------------------------------
+
+// View all parsed failed login data
+Failed_Logins_CL
+| where isnotempty(IPAddress)
+| project TimeGenerated, IPAddress, Username, Status
+| take 20
+
+// View most recent logs (last 20 minutes)
+Failed_Logins_CL
+| where TimeGenerated > ago(20m)
+| where isnotempty(IPAddress)
+| project TimeGenerated, IPAddress, Username, Status
+| take 20
+
+// Total attack count
+Failed_Logins_CL
+| where isnotempty(IPAddress)
+| count
+
+
+// --------------------------------------------
+// ATTACK ANALYSIS
+// --------------------------------------------
+
+// Top attacking IP addresses
+Failed_Logins_CL
+| where isnotempty(IPAddress)
+| summarize Count = count() by IPAddress
+| order by Count desc
+
+// Most targeted usernames
+Failed_Logins_CL
+| where isnotempty(Username)
+| summarize Count = count() by Username
+| order by Count desc
+
+// Attack frequency over time (per hour)
+Failed_Logins_CL
+| where isnotempty(IPAddress)
+| summarize Count = count() by bin(TimeGenerated, 1h)
+| order by TimeGenerated asc
+
+// Attacks per IP per username combination
+Failed_Logins_CL
+| where isnotempty(IPAddress)
+| summarize Count = count() by IPAddress, Username
+| order by Count desc
+
+
+// --------------------------------------------
+// DASHBOARD / MAP VISUALIZATION
+// --------------------------------------------
+
+// Map query - attack origins with geolocation
+Failed_Logins_CL
+| where isnotempty(IPAddress)
+| summarize Count = count() by IPAddress
+| extend Latitude = case(
+    IPAddress == "185.220.101.3", 51.5074,
+    IPAddress == "192.168.1.100", 32.7767,
+    IPAddress == "192.168.1.103", 32.7767,
+    IPAddress == "10.0.0.5", 32.7767,
+    0.0)
+| extend Longitude = case(
+    IPAddress == "185.220.101.3", -0.1278,
+    IPAddress == "192.168.1.100", -96.7970,
+    IPAddress == "192.168.1.103", -96.7970,
+    IPAddress == "10.0.0.5", -96.7970,
+    0.0)
+| project IPAddress, Count, Latitude, Longitude
+
+
+// --------------------------------------------
+// THREAT INTELLIGENCE
+// --------------------------------------------
+
+// Identify known Tor exit node activity
+Failed_Logins_CL
+| where IPAddress == "185.220.101.3"
+| summarize Count = count() by IPAddress, Username
+| order by Count desc
+
+// Most active attack hours
+Failed_Logins_CL
+| where isnotempty(IPAddress)
+| extend Hour = datetime_part("hour", TimeGenerated)
+| summarize Count = count() by Hour
+| order by Hour asc
+
+
+// --------------------------------------------
+// SCHEMA VERIFICATION
+// --------------------------------------------
+
+// Verify table schema
+Failed_Logins_CL
+| getschema
+
+// Check agent heartbeat
+Heartbeat
+| where Computer contains "honeypot"
+| take 10
